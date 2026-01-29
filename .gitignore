@@ -1,0 +1,29 @@
+# Unity generated
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# MemoryCaptures can get huge
+[Mm]emoryCaptures/
+
+# IDE / OS
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Unity3D
+.DS_Store
+Thumbs.db
+
+# Addressables cache
+[Aa]ssets/[Aa]ddressableAssetsData/*/*.bin*
