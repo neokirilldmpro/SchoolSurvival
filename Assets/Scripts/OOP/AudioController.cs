@@ -52,12 +52,19 @@ public class AudioController : MonoBehaviour
     // Фоновая музыка
     public void PlayMusic()
     {
+        // Сначала проверяем ссылки
         if (musicSource == null || _music == null)
+        {
+            Debug.LogWarning("PlayMusic: musicSource or _music is NULL");
             return;
+        }
 
+        // Потом запускаем
         musicSource.clip = _music;
         musicSource.loop = true;
         musicSource.Play();
+
+        Debug.Log("PlayMusic OK. source=" + musicSource.name + " clip=" + _music.name);
     }
 
     // Один звук (SFX)
@@ -127,6 +134,29 @@ public class AudioController : MonoBehaviour
                 tickSource.Stop();
         }
     }
+    public void ApplyVolumes(float musicVol, float sfxVol)
+    {
+        
+        if (musicSource != null) musicSource.volume = musicVol;
+        if (sfxSource != null) sfxSource.volume = sfxVol;
+        if (tickSource != null) tickSource.volume = sfxVol;
+        Debug.Log($"ApplyVolumes music={musicVol} sfx={sfxVol}");
 
+    }
+    private void OnEnable()
+    {
+        AudioSettingsModel.VolumesChanged += ApplyVolumes;
+    }
+
+    private void OnDisable()
+    {
+        AudioSettingsModel.VolumesChanged -= ApplyVolumes;
+    }
+
+    private void Start()
+    {
+        // синхронизация при старте сцены (если слайдеры не трогали)
+        ApplyVolumes(AudioSettingsModel.GetMusic(), AudioSettingsModel.GetSfx());
+    }
 
 }

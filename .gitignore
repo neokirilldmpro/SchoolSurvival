@@ -20,10 +20,23 @@
 *.pidb
 *.booproj
 *.svd
-
+# Visual Studio / Rider
+.vs/
+.vsconfig
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
 # Unity3D
 .DS_Store
 Thumbs.db
 
 # Addressables cache
 [Aa]ssets/[Aa]ddressableAssetsData/*/*.bin*
+
+
+
+# Unity meta cache / artifacts
+*.apk
+*.aab
+*.unitypackage
+

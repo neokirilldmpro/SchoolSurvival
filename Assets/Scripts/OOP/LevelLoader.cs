@@ -86,7 +86,9 @@ public class LevelLoader : MonoBehaviour
         }
 
         // Позиции по состояниям училки (меняем только те, где overridePosition=true)
-        teacherStateController.ApplyStateOverrides(config.teacherStateSetups);
+        
+        if (teacherStateController != null)
+            teacherStateController.ApplyStateOverrides(config.teacherStateSetups);
 
 
 
@@ -98,7 +100,8 @@ public class LevelLoader : MonoBehaviour
             screamerController.SetBackgroundColor(config.screamerBackgroundColor);
         }
         // НОВОЕ
-        screamerController.ApplyOverrides(config.screamerSetup);
+        if (screamerController != null)
+            screamerController.ApplyOverrides(config.screamerSetup);
 
         // 6) Настраиваем фон уровня
         if (backgroundRenderer != null && config.backgroundSprite != null)
@@ -118,8 +121,11 @@ public class LevelLoader : MonoBehaviour
             config.screamerSound,
             config.correctAnswerSound,
             config.wrongAnswerSound
-            );
 
+            );
+            audioController.ApplyVolumes(AudioSettingsModel.GetMusic(), AudioSettingsModel.GetSfx());
+            //2) запускаем музыку
+            audioController.PlayMusic();
         }
         int levelIndex = 0;
         if (LevelManager.Instance != null)
@@ -134,9 +140,3 @@ public class LevelLoader : MonoBehaviour
 
     }
 }
-//Vector3(1.17999995,0.709999979,0)
-//Vector3(2.67000008,-0.602999985,0)
-//Vector3(1.75999999,-1.38,0)
-
-//0.03   -2.52   0
-//1.334546     1.334546    1.334546
