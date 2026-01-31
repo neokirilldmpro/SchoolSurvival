@@ -3,6 +3,9 @@ using UnityEngine;
 // Этот класс хранит клипы и умеет их проигрывать через AudioSource-ы.
 public class AudioController : MonoBehaviour
 {
+    public static AudioController Instance { get; private set; }
+
+
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource sfxSource;
@@ -19,6 +22,18 @@ public class AudioController : MonoBehaviour
     private AudioClip _breathing;
     private AudioClip _warning;
     private AudioClip _screamer;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
 
     // LevelLoader задаёт клипы отсюда
     public void SetAudioClips(
@@ -158,5 +173,30 @@ public class AudioController : MonoBehaviour
         // синхронизация при старте сцены (если слайдеры не трогали)
         ApplyVolumes(AudioSettingsModel.GetMusic(), AudioSettingsModel.GetSfx());
     }
+
+    /*public void PlayMenuMusic(AudioClip menuClip)
+    {
+        if (musicSource == null || menuClip == null) return;
+
+        musicSource.clip = menuClip;
+        musicSource.loop = true;
+
+        if (!musicSource.isPlaying)
+            musicSource.Play();
+    }*/
+    public void PlayMenuMusic(AudioClip clip)
+    {
+        if (musicSource == null || clip == null)
+            return;
+
+        // чтобы не перезапускать по 10 раз
+        if (musicSource.isPlaying && musicSource.clip == clip)
+            return;
+
+        musicSource.clip = clip;
+        musicSource.loop = true;
+        musicSource.Play();
+    }
+
 
 }

@@ -295,7 +295,6 @@ MonoBehaviour:
   timerController: {fileID: 1158126821}
   teacherStateController: {fileID: 577449652}
   screamerController: {fileID: 1389983454}
-  audioController: {fileID: 1037880438}
   backgroundRenderer: {fileID: 1239564750}
   levelDecorRoots:
   - {fileID: 16910217}
@@ -839,6 +838,8 @@ MonoBehaviour:
   levels:
   - {fileID: 11400000, guid: e20d51466c0b34d4e951bcf842d3827a, type: 2}
   - {fileID: 11400000, guid: 2190dde7f0e895142b544d2593fc2e81, type: 2}
+  menuSceneName: MenuScene
+  gameSceneName: GameScene
 --- !u!1 &378556847
 GameObject:
   m_ObjectHideFlags: 0
@@ -2575,7 +2576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1037880437
 Transform:
   m_ObjectHideFlags: 0
@@ -2598,7 +2599,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037880436}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1bce09e3988591e4da5e4a96006bdda7, type: 3}
   m_Name: 
@@ -3085,10 +3086,9 @@ MonoBehaviour:
   timer: {fileID: 1158126821}
   teacher: {fileID: 577449652}
   screamer: {fileID: 1389983454}
-  audioController: {fileID: 1037880438}
   ui: {fileID: 1109886407}
-  maxMistakes: 3
   resultView: {fileID: 471600409}
+  maxMistakes: 3
 --- !u!1 &1158126819
 GameObject:
   m_ObjectHideFlags: 0

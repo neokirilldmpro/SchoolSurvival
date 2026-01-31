@@ -12,12 +12,19 @@ public class MainMenuController : MonoBehaviour
 
     [Header("Progress UI (optional)")]
     [SerializeField] private TextMeshProUGUI progressButtonText; // текст на кнопке прогресса
+    [Header("Menu Music")]
+    [SerializeField] private AudioClip menuMusic;
+    
+    
+
+
 
     private void Start()
     {
         /*PlayerPrefs.DeleteKey("MusicVolume");
         PlayerPrefs.DeleteKey("SfxVolume");
         PlayerPrefs.Save();*/
+
         RefreshProgressButton();
     }
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -32,10 +39,15 @@ public class MainMenuController : MonoBehaviour
     {
         if (WebGLAudioUnlocker.Instance != null)
             WebGLAudioUnlocker.Instance.Unlock();
-
+        AudioController.Instance?.PlayMenuMusic(menuMusic);
         if (LevelManager.Instance != null)
             LevelManager.Instance.StartNewGame();
         
+        
+        
+
+
+
 
     }
 
@@ -44,15 +56,24 @@ public class MainMenuController : MonoBehaviour
     {
         if (WebGLAudioUnlocker.Instance != null)
             WebGLAudioUnlocker.Instance.Unlock();
-
+        AudioController.Instance?.PlayMenuMusic(menuMusic);
         if (LevelManager.Instance != null)
             LevelManager.Instance.ContinueGame();
+
+        
+        
+
     }
 
     public void OpenSettings()
     {
         if (settingsPanel != null)
             settingsPanel.SetActive(true);
+
+        WebGLAudioUnlocker.Instance?.Unlock();
+        AudioController.Instance?.PlayMenuMusic(menuMusic);
+        
+
     }
 
     public void CloseSettings()

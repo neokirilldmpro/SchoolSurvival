@@ -30,7 +30,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private ScreamerController screamerController;
 
     // Контроллер звуков (будем создавать дальше)
-    [SerializeField] private AudioController audioController;
+    //[SerializeField] private AudioController audioController;
     //[SerializeField] private Transform teacherRoot;
 
     [Header("Background")]
@@ -110,7 +110,7 @@ public class LevelLoader : MonoBehaviour
         }
 
 
-        // 5) Настраиваем звуки
+        /*// 5) Настраиваем звуки
         if (audioController != null)
         {
             audioController.SetAudioClips(
@@ -126,7 +126,30 @@ public class LevelLoader : MonoBehaviour
             audioController.ApplyVolumes(AudioSettingsModel.GetMusic(), AudioSettingsModel.GetSfx());
             //2) запускаем музыку
             audioController.PlayMusic();
+        }*/
+
+        // 5) Настраиваем звуки
+        var audioController = AudioController.Instance;
+        if (audioController != null)
+        {
+            audioController.SetAudioClips(
+                config.backgroundMusic,
+                config.tickSound,
+                config.breathingSound,
+                config.warningShoutSound,
+                config.screamerSound,
+                config.correctAnswerSound,
+                config.wrongAnswerSound
+            );
+
+            // Громкости применятся и сами по событию, но пусть будет при старте уровня
+            audioController.ApplyVolumes(AudioSettingsModel.GetMusic(), AudioSettingsModel.GetSfx());
+
+            // запускаем музыку уровня
+            audioController.PlayMusic();
         }
+
+
         int levelIndex = 0;
         if (LevelManager.Instance != null)
             levelIndex = LevelManager.Instance.GetCurrentLevelNumber() - 1;
