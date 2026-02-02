@@ -24,10 +24,11 @@ public class MainMenuController : MonoBehaviour
         /*PlayerPrefs.DeleteKey("MusicVolume");
         PlayerPrefs.DeleteKey("SfxVolume");
         PlayerPrefs.Save();*/
+        StickyBannerController.Set(true);
 
         RefreshProgressButton();
     }
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    
     
     private void OnEnable()
     {

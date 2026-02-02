@@ -51,6 +51,8 @@ public class GameFlowController : MonoBehaviour
     // Старт игры / уровня
     private void StartGame()
     {
+        StickyBannerController.Set(false);
+
         _gameOver = false;
         _mistakes = 0;
 

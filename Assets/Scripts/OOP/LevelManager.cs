@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using YG;
 
 public class LevelManager : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class LevelManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         _currentLevelIndex = PlayerPrefs.GetInt(KEY_CURRENT_LEVEL, 0);
+        Debug.Log($"[SAVE] Loaded local in Awake: index={_currentLevelIndex}");
         _currentLevelIndex = Mathf.Clamp(_currentLevelIndex, 0, Mathf.Max(0, levels.Length - 1));
     }
 
@@ -73,11 +75,34 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(menuSceneName);
     }
 
-    private void SaveProgress()
+    /*private void SaveProgress()
     {
         PlayerPrefs.SetInt(KEY_CURRENT_LEVEL, _currentLevelIndex);
         PlayerPrefs.Save();
+    }*/
+    private void SaveProgress()
+    {
+        // Локально (как было)
+        PlayerPrefs.SetInt(KEY_CURRENT_LEVEL, _currentLevelIndex);
+        PlayerPrefs.Save();
+        Debug.Log($"[SAVE] Saved local: index={_currentLevelIndex}");
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    // В облако: сохраняем номер уровня 1..N
+    if (YG2.isSDKEnabled)
+    {
+        YG2.saves.currentLevel = _currentLevelIndex + 1;
+
+        // Громкости — если хочешь хранить тоже в облаке
+        YG2.saves.musicVolume = AudioSettingsModel.GetMusic();
+        YG2.saves.sfxVolume   = AudioSettingsModel.GetSfx();
+
+        YG2.SaveProgress();
+        Debug.Log($"[SAVE] Saved to cloud: level={YG2.saves.currentLevel}");
     }
+#endif
+    }
+
 
     // -------------------------------------------------
     // Backward compatibility (старый UI/кнопки)
@@ -109,6 +134,47 @@ public class LevelManager : MonoBehaviour
     {
         return levels == null ? 0 : levels.Length;
     }
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    private void OnEnable()
+    {
+        YG2.onGetSDKData += ApplySavesFromYG;
+    }
+
+    private void OnDisable()
+    {
+        YG2.onGetSDKData -= ApplySavesFromYG;
+    }
+#endif
+
+
+
+    private void ApplySavesFromYG()
+    {
+        // cloud level хранится как 1..N
+        int cloudLvl = YG2.saves.currentLevel;
+        if (cloudLvl < 1) cloudLvl = 1;
+
+        int cloudIdx = cloudLvl - 1;
+        cloudIdx = Mathf.Clamp(cloudIdx, 0, Mathf.Max(0, levels.Length - 1));
+
+        // локальный прогресс (0..N-1)
+        int localIdx = PlayerPrefs.GetInt(KEY_CURRENT_LEVEL, 0);
+
+        // НИКОГДА не откатываем прогресс назад:
+        _currentLevelIndex = Mathf.Max(localIdx, cloudIdx);
+
+        // синхронизируем PlayerPrefs без вызова SaveProgress (чтобы не триггерить облако повторно)
+        PlayerPrefs.SetInt(KEY_CURRENT_LEVEL, _currentLevelIndex);
+        PlayerPrefs.Save();
+
+        // звук (если используешь облако и для громкости)
+        AudioSettingsModel.SetMusic(YG2.saves.musicVolume);
+        AudioSettingsModel.SetSfx(YG2.saves.sfxVolume);
+
+        Debug.Log($"[SAVE] Apply cloud: cloud={cloudIdx} local={localIdx} => use={_currentLevelIndex}");
+    }
+
 
 
 }

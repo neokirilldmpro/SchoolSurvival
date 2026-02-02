@@ -1,10 +1,11 @@
 using UnityEngine;
 using TMPro;
+using YG; // PluginYG2
 
 public class ResultView : MonoBehaviour
 {
     [Header("Main Panel")]
-    [SerializeField] private GameObject panelRoot;   // <-- твое поле
+    [SerializeField] private GameObject panelRoot;
 
     [Header("UI")]
     [SerializeField] private TMP_Text resultText;
@@ -32,24 +33,32 @@ public class ResultView : MonoBehaviour
 
     public void ShowWin()
     {
-        Show("ВЫ ВЫЖИЛИ");
+        Show("Вы выиграли");
 
         if (nextLevelButton != null)
             nextLevelButton.SetActive(true);
 
         if (restartButton != null)
             restartButton.SetActive(false);
+
+        TryShowInterstitial();
+        StickyBannerController.Set(true);
+
     }
 
     public void ShowLose()
     {
-        Show("ВЫ ПРОИГРАЛИ");
+        Show("Вы проиграли");
 
         if (restartButton != null)
             restartButton.SetActive(true);
 
         if (nextLevelButton != null)
             nextLevelButton.SetActive(false);
+
+        TryShowInterstitial();
+        StickyBannerController.Set(true);
+
     }
 
     private void Show(string text)
@@ -59,5 +68,19 @@ public class ResultView : MonoBehaviour
 
         if (resultText != null)
             resultText.text = text;
+    }
+
+    private void TryShowInterstitial()
+    {
+        Debug.Log($"[ADS] TryShowInterstitial: isSDKEnabled={YG2.isSDKEnabled}");
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // показываем только если SDK реально инициализирован (иначе в локальном запуске/вне Яндекса не сработает)
+        if (YG2.isSDKEnabled)
+        {
+            AudioListener.pause = true;
+            YG2.InterstitialAdvShow();
+        }
+#endif
     }
 }
