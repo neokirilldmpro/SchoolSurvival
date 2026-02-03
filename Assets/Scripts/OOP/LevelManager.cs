@@ -16,7 +16,37 @@ public class LevelManager : MonoBehaviour
     private int _currentLevelIndex;
     private const string KEY_CURRENT_LEVEL = "CurrentLevel";
 
-    
+    private const float CLOUD_SAVE_DEBOUNCE = 0.75f;
+    private bool _applyingCloud;
+
+    /// <summary>
+    /// Запланировать облачное сохранение (debounce), чтобы не спамить SaveProgress при движении слайдера.
+    /// </summary>
+    public void RequestCloudSave()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+    if (!YG2.isSDKEnabled) return;
+    if (_applyingCloud) return;
+
+    CancelInvoke(nameof(DoCloudSave));
+    Invoke(nameof(DoCloudSave), CLOUD_SAVE_DEBOUNCE);
+#endif
+    }
+
+    private void DoCloudSave()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+    if (!YG2.isSDKEnabled) return;
+    if (_applyingCloud) return;
+
+    YG2.saves.currentLevel = _currentLevelIndex + 1;
+    YG2.saves.musicVolume = AudioSettingsModel.GetMusic();
+    YG2.saves.sfxVolume   = AudioSettingsModel.GetSfx();
+
+    YG2.SaveProgress();
+    Debug.Log($"[SAVE] Cloud saved (debounced): level={YG2.saves.currentLevel} music={YG2.saves.musicVolume} sfx={YG2.saves.sfxVolume}");
+#endif
+    }
 
 
     private void Awake()
@@ -75,11 +105,6 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(menuSceneName);
     }
 
-    /*private void SaveProgress()
-    {
-        PlayerPrefs.SetInt(KEY_CURRENT_LEVEL, _currentLevelIndex);
-        PlayerPrefs.Save();
-    }*/
     private void SaveProgress()
     {
         // Локально (как было)
@@ -149,8 +174,9 @@ public class LevelManager : MonoBehaviour
 
 
 
-    private void ApplySavesFromYG()
+    /*private void ApplySavesFromYG()
     {
+
         // cloud level хранится как 1..N
         int cloudLvl = YG2.saves.currentLevel;
         if (cloudLvl < 1) cloudLvl = 1;
@@ -173,7 +199,68 @@ public class LevelManager : MonoBehaviour
         AudioSettingsModel.SetSfx(YG2.saves.sfxVolume);
 
         Debug.Log($"[SAVE] Apply cloud: cloud={cloudIdx} local={localIdx} => use={_currentLevelIndex}");
+    }*/
+    private void ApplySavesFromYG()
+    {
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        _applyingCloud = true;
+    #endif
+
+        // Если уровней нет — нечего применять
+        if (levels == null || levels.Length == 0)
+        {
+            Debug.LogWarning("[SAVE] ApplySavesFromYG: levels array is empty");
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        _applyingCloud = false;
+    #endif
+            return;
+        }
+
+        // --- 1) Cloud: currentLevel хранится как 1..N ---
+        int cloudLvl = 1;
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        if (YG2.saves != null)
+            cloudLvl = Mathf.Max(1, YG2.saves.currentLevel);
+    #endif
+        int cloudIdx = cloudLvl - 1; // -> 0..N-1
+        cloudIdx = Mathf.Clamp(cloudIdx, 0, levels.Length - 1);
+
+        // --- 2) Local: у тебя в PlayerPrefs индекс 0..N-1 ---
+        int localIdx = PlayerPrefs.GetInt(KEY_CURRENT_LEVEL, 0);
+        localIdx = Mathf.Clamp(localIdx, 0, levels.Length - 1);
+
+        // --- 3) Никогда не откатываем прогресс назад ---
+        _currentLevelIndex = Mathf.Max(localIdx, cloudIdx);
+        _currentLevelIndex = Mathf.Clamp(_currentLevelIndex, 0, levels.Length - 1);
+
+        // --- 4) Синхронизируем локально (без SaveProgress, чтобы не триггерить облако повторно) ---
+        PlayerPrefs.SetInt(KEY_CURRENT_LEVEL, _currentLevelIndex);
+        PlayerPrefs.Save();
+
+        // --- 5) Применяем громкости из облака (если используешь облако для настроек) ---
+    #if UNITY_WEBGL && !UNITY_EDITOR
+    if (YG2.saves != null)
+    {
+        float mv = Mathf.Clamp01(YG2.saves.musicVolume);
+        float sv = Mathf.Clamp01(YG2.saves.sfxVolume);
+
+        AudioSettingsModel.SetMusic(mv);
+        AudioSettingsModel.SetSfx(sv);
+
+        // Если у тебя ещё где-то читается MusicVolume/SfxVolume из PlayerPrefs — синхронизируем
+        PlayerPrefs.SetFloat("MusicVolume", mv);
+        PlayerPrefs.SetFloat("SfxVolume", sv);
+        PlayerPrefs.Save();
     }
+    #endif
+
+        Debug.Log($"[SAVE] Apply cloud/local: cloudIdx={cloudIdx} (cloudLvl={cloudLvl}) localIdx={localIdx} => useIdx={_currentLevelIndex}");
+
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        _applyingCloud = false;
+    #endif
+    }
+
 
 
 

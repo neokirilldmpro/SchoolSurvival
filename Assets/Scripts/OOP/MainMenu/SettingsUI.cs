@@ -1,22 +1,3 @@
-/*using UnityEngine;
-using UnityEngine.UI;
-
-public class SettingsUI : MonoBehaviour
-{
-    [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider sfxSlider;
-
-    private void Start()
-    {
-        Debug.Log("MusicVol=" + AudioSettingsModel.GetMusic() + " SfxVol=" + AudioSettingsModel.GetSfx());
-        if (musicSlider != null) musicSlider.value = AudioSettingsModel.GetMusic();
-        if (sfxSlider != null) sfxSlider.value = AudioSettingsModel.GetSfx();
-    }
-
-    public void OnMusicChanged(float v) => AudioSettingsModel.SetMusic(v);
-    public void OnSfxChanged(float v) => AudioSettingsModel.SetSfx(v);
-}
-*/
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,11 +36,13 @@ public class SettingsUI : MonoBehaviour
     {
         AudioSettingsModel.SetMusic(v);   // <- тут триггерится событие, AudioController обновится сам
         ApplyMenuPreviewVolume();
+        LevelManager.Instance?.RequestCloudSave();
     }
 
     private void OnSfxChanged(float v)
     {
         AudioSettingsModel.SetSfx(v);     // <- событие
+        LevelManager.Instance?.RequestCloudSave();
     }
 
     private void ApplyMenuPreviewVolume()
