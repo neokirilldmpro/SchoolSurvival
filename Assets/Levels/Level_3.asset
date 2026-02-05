@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 563ba62e737be404aafce490e44bc8a7, type: 3}
-  m_Name: Level_2
+  m_Name: Level_3
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
-  backgroundSprite: {fileID: -1585710282339910000, guid: 3544bfd624076b048becc3445f9f47ec, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 828b266d932fe1546806cf93da770174, type: 3}
   timePerQuestion: 20
   questions:
   - questionText: "\u0421\u043A\u043E\u043B\u044C\u043A\u043E \u0442\u0435\u0431\u0435
@@ -45,33 +45,33 @@ MonoBehaviour:
     - "\u041D\u0435\u0437\u043D\u0430\u044E"
     correctAnswerIndex: 1
   teacherStateSprites:
-  - {fileID: 21300000, guid: 3fd9c31a0bc2b87419b48f7ef63a5ee8, type: 3}
-  - {fileID: 21300000, guid: b24a160a57d90b749991a4341e57fb75, type: 3}
-  - {fileID: 21300000, guid: a0d49a0b9429f374c8a24a419b74c388, type: 3}
+  - {fileID: 21300000, guid: 731272dc667b88845a2cfc7965e63c79, type: 3}
+  - {fileID: 21300000, guid: da74f56463dd5d44ea08a3dc13611204, type: 3}
+  - {fileID: 21300000, guid: 9ff27f01f17097f40a232fe4ee31bed5, type: 3}
   teacherStateSetups:
   - stateIndex: 0
     overridePosition: 1
-    position: {x: 1.18, y: 0.71, z: 0}
+    position: {x: 1.3789, y: 0.1, z: 0}
     overrideScale: 1
-    scale: {x: 0.477032, y: 0.477032, z: 0.477032}
+    scale: {x: 0.4533619, y: 0.4533619, z: 0.4533619}
     overrideSortingLayer: 0
     sortingLayerName: 
     overrideOrderInLayer: 1
     orderInLayer: 1
   - stateIndex: 1
     overridePosition: 1
-    position: {x: 2.67, y: -0.603, z: 0}
+    position: {x: 1.8087, y: -0.98301, z: 0}
     overrideScale: 1
-    scale: {x: 0.617014, y: 0.617014, z: 0.617014}
+    scale: {x: 0.7988819, y: 0.7988819, z: 0.7988819}
     overrideSortingLayer: 0
     sortingLayerName: 
     overrideOrderInLayer: 1
     orderInLayer: 3
   - stateIndex: 2
     overridePosition: 1
-    position: {x: 1.76, y: -1.38, z: 0}
+    position: {x: -1.0382, y: -1.63, z: 0}
     overrideScale: 1
-    scale: {x: 1, y: 1, z: 1}
+    scale: {x: 1.349335, y: 1.349335, z: 1.349335}
     overrideSortingLayer: 0
     sortingLayerName: 
     overrideOrderInLayer: 1
@@ -80,20 +80,20 @@ MonoBehaviour:
     overridePosition: 0
     position: {x: 0.57, y: -4.01, z: 0}
     overrideScale: 1
-    scale: {x: 1.90277, y: 1.90277, z: 1.90277}
-    visualOffset: {x: 0.51333, y: -3.14, z: 0}
+    scale: {x: 1, y: 1, z: 1}
+    visualOffset: {x: 0, y: 0, z: 0}
     overrideSortingLayer: 0
     sortingLayerName: 
     overrideOrderInLayer: 0
     orderInLayer: 0
     losePanelDelaySeconds: 0
-  screamerSpriteA: {fileID: 21300000, guid: 9d64f71476db81646a8a10d693904952, type: 3}
-  screamerSpriteB: {fileID: 21300000, guid: 9d64f71476db81646a8a10d693904952, type: 3}
+  screamerSpriteA: {fileID: 21300000, guid: af9c235a7fef0ca4cacc516cd3e2c728, type: 3}
+  screamerSpriteB: {fileID: 21300000, guid: af9c235a7fef0ca4cacc516cd3e2c728, type: 3}
   screamerBackgroundColor: {r: 1, g: 0, b: 0, a: 1}
   backgroundMusic: {fileID: 8300000, guid: 75a717ad4d1725a41a088ad4f4f504fd, type: 3}
   tickSound: {fileID: 8300000, guid: 7ac6019be92f5eb4dbf95a87f10defd3, type: 3}
-  breathingSound: {fileID: 8300000, guid: 84b2830c0f0d2af47a210592053417ae, type: 3}
-  warningShoutSound: {fileID: 8300000, guid: 382c71eb0622d7c4596cb0f715464cd2, type: 3}
-  screamerSound: {fileID: 8300000, guid: 598191f1cd574744f84682e6098ce2b2, type: 3}
+  breathingSound: {fileID: 8300000, guid: ab26ada827f055f49ad03a2914a7dcc7, type: 3}
+  warningShoutSound: {fileID: 8300000, guid: 33e4b3c417c7e6943b10f82cf6809a22, type: 3}
+  screamerSound: {fileID: 8300000, guid: dfa79d4f873a71a4c8de133f2921aecf, type: 3}
   correctAnswerSound: {fileID: 8300000, guid: 74a3a0fae81a9dd48897a02fcb325896, type: 3}
   wrongAnswerSound: {fileID: 8300000, guid: d48ea6f34558ba64f82507cced42f59e, type: 3}

@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 563ba62e737be404aafce490e44bc8a7, type: 3}
+  m_Name: Level_5
+  m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
+  backgroundSprite: {fileID: 21300000, guid: bec9e720369adc044a5b10604c9878b6, type: 3}
+  timePerQuestion: 10
+  questions:
+  - questionText: 5+5
+    answers:
+    - 10
+    - 60
+    - 9
+    correctAnswerIndex: 0
+  - questionText: 5+5
+    answers:
+    - 10
+    - 60
+    - 9
+    correctAnswerIndex: 0
+  - questionText: 5+5
+    answers:
+    - 10
+    - 60
+    - 9
+    correctAnswerIndex: 0
+  - questionText: 5+5
+    answers:
+    - 10
+    - 60
+    - 9
+    correctAnswerIndex: 0
+  - questionText: 5+5
+    answers:
+    - 10
+    - 60
+    - 9
+    correctAnswerIndex: 0
+  teacherStateSprites:
+  - {fileID: 21300000, guid: bd0efceab2fb029448ca4b4926de9cf1, type: 3}
+  - {fileID: 21300000, guid: d47933f4cf81c134780592012c26119a, type: 3}
+  - {fileID: 21300000, guid: 81cc974ab8f78fc4f9025e84caf7b94b, type: 3}
+  teacherStateSetups:
+  - stateIndex: 0
+    overridePosition: 1
+    position: {x: -3.9526, y: -0.53545, z: 0}
+    overrideScale: 1
+    scale: {x: 1.0354, y: 1.0354, z: 1.0354}
+    overrideSortingLayer: 0
+    sortingLayerName: 
+    overrideOrderInLayer: 0
+    orderInLayer: 0
+  - stateIndex: 1
+    overridePosition: 1
+    position: {x: -5.7983, y: -0.66, z: 0}
+    overrideScale: 1
+    scale: {x: 1.386514, y: 1.386514, z: 1.386514}
+    overrideSortingLayer: 0
+    sortingLayerName: 
+    overrideOrderInLayer: 0
+    orderInLayer: 0
+  - stateIndex: 2
+    overridePosition: 1
+    position: {x: 2.1604, y: -1.9, z: 0}
+    overrideScale: 1
+    scale: {x: 1.655943, y: 1.655943, z: 1.655943}
+    overrideSortingLayer: 0
+    sortingLayerName: 
+    overrideOrderInLayer: 0
+    orderInLayer: 0
+  screamerSetup:
+    overridePosition: 0
+    position: {x: 0, y: 0, z: 0}
+    overrideScale: 1
+    scale: {x: 1.386622, y: 1.386622, z: 1.386622}
+    visualOffset: {x: 0.1933, y: -4.29, z: 0}
+    overrideSortingLayer: 0
+    sortingLayerName: 
+    overrideOrderInLayer: 0
+    orderInLayer: 0
+    losePanelDelaySeconds: 3
+  screamerSpriteA: {fileID: 21300000, guid: 4f669d0013f1e3e44805cb8c48a30109, type: 3}
+  screamerSpriteB: {fileID: 21300000, guid: 4f669d0013f1e3e44805cb8c48a30109, type: 3}
+  screamerBackgroundColor: {r: 1, g: 0, b: 0, a: 1}
+  backgroundMusic: {fileID: 8300000, guid: 75a717ad4d1725a41a088ad4f4f504fd, type: 3}
+  tickSound: {fileID: 8300000, guid: 7ac6019be92f5eb4dbf95a87f10defd3, type: 3}
+  breathingSound: {fileID: 8300000, guid: 5ad8710ddea5aef4698d61baeedba992, type: 3}
+  warningShoutSound: {fileID: 8300000, guid: b69ba03c8c28eb144bf170a39db1f0ae, type: 3}
+  screamerSound: {fileID: 8300000, guid: 7f85044da1042ab4e9adaf9762dfaf9b, type: 3}
+  correctAnswerSound: {fileID: 8300000, guid: 74a3a0fae81a9dd48897a02fcb325896, type: 3}
+  wrongAnswerSound: {fileID: 8300000, guid: d48ea6f34558ba64f82507cced42f59e, type: 3}
