@@ -79,7 +79,7 @@ public class AudioController : MonoBehaviour
         musicSource.loop = true;
         musicSource.Play();
 
-        Debug.Log("PlayMusic OK. source=" + musicSource.name + " clip=" + _music.name);
+        //Debug.Log("PlayMusic OK. source=" + musicSource.name + " clip=" + _music.name);
     }
 
     // Один звук (SFX)
@@ -155,7 +155,7 @@ public class AudioController : MonoBehaviour
         if (musicSource != null) musicSource.volume = musicVol;
         if (sfxSource != null) sfxSource.volume = sfxVol;
         if (tickSource != null) tickSource.volume = sfxVol;
-        Debug.Log($"ApplyVolumes music={musicVol} sfx={sfxVol}");
+        //Debug.Log($"ApplyVolumes music={musicVol} sfx={sfxVol}");
 
     }
     private void OnEnable()

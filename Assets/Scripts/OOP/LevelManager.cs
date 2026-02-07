@@ -58,7 +58,7 @@ public class LevelManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         _currentLevelIndex = PlayerPrefs.GetInt(KEY_CURRENT_LEVEL, 0);
-        Debug.Log($"[SAVE] Loaded local in Awake: index={_currentLevelIndex}");
+        //Debug.Log($"[SAVE] Loaded local in Awake: index={_currentLevelIndex}");
         _currentLevelIndex = Mathf.Clamp(_currentLevelIndex, 0, Mathf.Max(0, levels.Length - 1));
     }
 
@@ -110,7 +110,7 @@ public class LevelManager : MonoBehaviour
         // Локально (как было)
         PlayerPrefs.SetInt(KEY_CURRENT_LEVEL, _currentLevelIndex);
         PlayerPrefs.Save();
-        Debug.Log($"[SAVE] Saved local: index={_currentLevelIndex}");
+        //Debug.Log($"[SAVE] Saved local: index={_currentLevelIndex}");
 
 #if UNITY_WEBGL && !UNITY_EDITOR
     // В облако: сохраняем номер уровня 1..N

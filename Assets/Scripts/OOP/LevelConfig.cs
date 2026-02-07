@@ -34,6 +34,8 @@ public class TeacherStateSetup
     [Tooltip("Если включено — переопределяем order in layer")]
     public bool overrideOrderInLayer;
     public int orderInLayer;
+
+    
 }
 
 [System.Serializable]
@@ -162,7 +164,9 @@ public class LevelConfig : ScriptableObject
 
     [Tooltip("Звук при неправильном ответе")]
     public AudioClip wrongAnswerSound;
-    
-    
 
+
+    [Header("Rules")]
+    [Tooltip("Сколько ошибок можно допустить на этом уровне до проигрыша")]
+    public int allowedMistakes = 3;
 }

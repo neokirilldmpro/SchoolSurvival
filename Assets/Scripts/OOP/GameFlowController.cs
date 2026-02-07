@@ -18,11 +18,16 @@ public class GameFlowController : MonoBehaviour
     [SerializeField] private ResultView resultView;
 
     [Header("Rules")]
-    [SerializeField] private int maxMistakes = 3;
+    /*[SerializeField] private int maxMistakes = 3;*/
+    private int _maxMistakes = 3;
+
 
     private int _mistakes;
     private bool _gameOver;
     private bool _awaitingAnswer;
+
+    [SerializeField] private GameObject toggleQuizButton; // кнопка Q (UI)
+
 
     private void Awake()
     {
@@ -54,7 +59,16 @@ public class GameFlowController : MonoBehaviour
         StickyBannerController.Set(false);
 
         _gameOver = false;
+        if (toggleQuizButton != null)
+            toggleQuizButton.SetActive(true);
+
         _mistakes = 0;
+
+        var level = LevelManager.Instance != null ? LevelManager.Instance.GetCurrentLevel() : null;
+        _maxMistakes = (level != null && level.allowedMistakes > 0) ? level.allowedMistakes : 3;
+
+        //Debug.Log($"[RULES] Max mistakes for this level: {_maxMistakes}");
+
 
         // Учитель в спокойное состояние
         if (teacher != null)
@@ -165,6 +179,7 @@ public class GameFlowController : MonoBehaviour
     }
 
     // Добавить ошибку и обновить состояние училки/игры
+    
     private void AddMistake()
     {
         if (_gameOver)
@@ -172,25 +187,30 @@ public class GameFlowController : MonoBehaviour
 
         _mistakes++;
 
+        // СНАЧАЛА проверяем проигрыш (важно для _maxMistakes = 1)
+        if (_mistakes >= _maxMistakes)
+        {
+            Lose();
+            return;
+        }
+
         var audio = AudioController.Instance;
 
-        // 1 ошибка
+        // Теперь эффекты/состояния только если ещё не проиграли
         if (_mistakes == 1)
         {
             if (teacher != null) teacher.SetState(1);
             if (audio != null) audio.PlayBreathing();
         }
-        // 2 ошибка
         else if (_mistakes == 2)
         {
             if (teacher != null) teacher.SetState(2);
             if (audio != null) audio.PlayWarning();
         }
-        // 3 ошибка = проигрыш
-        else if (_mistakes >= maxMistakes)
+        else
         {
-            Lose();
-            return;
+            // Если ошибок больше 2, можно оставить 2-й state или добавить новые
+            if (teacher != null) teacher.SetState(2);
         }
 
         // Переходим к следующему вопросу
@@ -203,6 +223,7 @@ public class GameFlowController : MonoBehaviour
 
         ShowCurrentQuestionAndStartTimer();
     }
+
 
     // Победа
     private void Win()
@@ -229,16 +250,21 @@ public class GameFlowController : MonoBehaviour
         if (audio != null)
             audio.SetTicking(false);
 
+        if (toggleQuizButton != null)
+            toggleQuizButton.SetActive(false);
+
         // Показываем результат
         if (resultView != null)
             resultView.ShowWin();
 
-        Debug.Log("WIN");
+        //Debug.Log("WIN");
     }
 
     // Поражение (скример)
     private void Lose()
     {
+        if (toggleQuizButton != null)
+            toggleQuizButton.SetActive(false);
         _gameOver = true;
 
         // Останавливаем таймер
@@ -270,7 +296,7 @@ public class GameFlowController : MonoBehaviour
         if (audio != null)
             audio.PlayScreamer();
 
-        Debug.Log("LOSE: started, will show panel in 3 seconds...");
+        //Debug.Log("LOSE: started, will show panel in 3 seconds...");
 
         // Показать результат через 3 секунды (Realtime, чтобы не зависеть от Time.timeScale)
         StartCoroutine(ShowLoseResultDelayed());
@@ -316,6 +342,8 @@ public class GameFlowController : MonoBehaviour
 
     private void ToggleQuizPanel()
     {
+        if (_gameOver) return;
+
         if (ui == null)
             return;
 
@@ -328,7 +356,10 @@ public class GameFlowController : MonoBehaviour
         if (show)
             ui.SetButtonsInteractable(_awaitingAnswer);
     }
-
+    public void ToggleQuizPanelFromUI()
+    {
+        ToggleQuizPanel();
+    }
     private IEnumerator AnswerDelayRoutine(bool correct)
     {
         // Задержка 1 секунда

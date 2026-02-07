@@ -32,6 +32,6 @@ public class WebGLAudioUnlocker : MonoBehaviour
         source.Stop();
 
         _unlocked = true;
-        Debug.Log("WebGL audio unlocked");
+        //Debug.Log("WebGL audio unlocked");
     }
 }

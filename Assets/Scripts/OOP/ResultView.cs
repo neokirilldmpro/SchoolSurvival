@@ -340,7 +340,7 @@ public class ResultView : MonoBehaviour
 
     private void OnNextClicked()
     {
-        Debug.Log("[ResultView] Next clicked");
+        //Debug.Log("[ResultView] Next clicked");
         AudioListener.pause = false;
 
         LevelManager.Instance?.ReloadGameScene();
@@ -349,7 +349,7 @@ public class ResultView : MonoBehaviour
 
     private void OnRestartClicked()
     {
-        Debug.Log("[ResultView] Restart clicked");
+        //Debug.Log("[ResultView] Restart clicked");
         AudioListener.pause = false;
 
         LevelManager.Instance?.RestartCurrentLevel();
@@ -358,7 +358,7 @@ public class ResultView : MonoBehaviour
 
     private void OnMenuClicked()
     {
-        Debug.Log("[ResultView] Menu clicked");
+        //Debug.Log("[ResultView] Menu clicked");
         AudioListener.pause = false;
 
         LevelManager.Instance?.GoToMenu();
@@ -367,7 +367,7 @@ public class ResultView : MonoBehaviour
 
     private void TryShowInterstitial()
     {
-        Debug.Log($"[ADS] TryShowInterstitial: isSDKEnabled={YG2.isSDKEnabled}");
+        //Debug.Log($"[ADS] TryShowInterstitial: isSDKEnabled={YG2.isSDKEnabled}");
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         // показываем только если SDK реально инициализирован

@@ -109,3 +109,4 @@ MonoBehaviour:
   screamerSound: {fileID: 8300000, guid: 574b294c58988ca418abda2de35a6c0b, type: 3}
   correctAnswerSound: {fileID: 8300000, guid: 74a3a0fae81a9dd48897a02fcb325896, type: 3}
   wrongAnswerSound: {fileID: 8300000, guid: d48ea6f34558ba64f82507cced42f59e, type: 3}
+  allowedMistakes: 3

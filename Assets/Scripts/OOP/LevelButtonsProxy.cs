@@ -13,7 +13,7 @@ public class LevelButtonsProxy : MonoBehaviour
             return;
         }
 
-        Debug.Log("LevelButtonsProxy: Restart clicked");
+        //Debug.Log("LevelButtonsProxy: Restart clicked");
         LevelManager.Instance.RestartCurrentLevel();
     }
 
@@ -25,7 +25,7 @@ public class LevelButtonsProxy : MonoBehaviour
             return;
         }
 
-        Debug.Log("LevelButtonsProxy: NextLevel clicked");
+        //Debug.Log("LevelButtonsProxy: NextLevel clicked");
         LevelManager.Instance.ReloadGameScene();
     }
 }
