@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 563ba62e737be404aafce490e44bc8a7, type: 3}
+  m_Name: Level_11
+  m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
+  backgroundSprite: {fileID: 21300000, guid: bec9e720369adc044a5b10604c9878b6, type: 3}
+  timePerQuestion: 5
+  questions:
+  - questionText: "\u041C\u043E\u0436\u043D\u043E \u043B\u0438 \u0440\u0430\u0437\u0433\u043E\u0432\u0430\u0440\u0438\u0432\u0430\u0442\u044C
+      \u0432 \u0448\u043A\u043E\u043B\u044C\u043D\u043E\u043C \u043A\u043E\u0440\u0438\u0434\u043E\u0440\u0435?"
+    answers:
+    - "\u0414\u0430"
+    - "\u041D\u0435\u0442"
+    - "\u0422\u043E\u043B\u044C\u043A\u043E \u0442\u0438\u0445\u043E"
+    correctAnswerIndex: 1
+  - questionText: "\u041A\u0442\u043E \u0434\u043B\u044F \u0442\u0435\u0431\u044F
+      \u0434\u0438\u0440\u0435\u043A\u0442\u043E\u0440 \u0448\u043A\u043E\u043B\u044B?"
+    answers:
+    - "\u0411\u041E\u0413"
+    - "\u0426\u0410\u0420\u042C"
+    - "\u0412\u0421\u0401"
+    correctAnswerIndex: 0
+  - questionText: "\u0417\u0432\u043E\u043D\u043E\u043A \u0434\u043B\u044F:"
+    answers:
+    - "\u0423\u0447\u0438\u0442\u0435\u043B\u044F "
+    - "\u0423\u0447\u0435\u043D\u0438\u043A\u0430 "
+    - "\u0414\u0438\u0440\u0435\u043A\u0442\u043E\u0440\u0430"
+    correctAnswerIndex: 2
+  - questionText: "\u0428\u043A\u043E\u043B\u0430 \u044D\u0442\u043E:"
+    answers:
+    - "\u0423\u0447\u0435\u0431\u043D\u043E\u0435 \u0437\u0430\u0432\u0435\u0434\u0435\u043D\u0438\u0435"
+    - "\u0414\u043E\u043C \u043D\u0430 9 \u043B\u0435\u0442"
+    - "\u041B\u0443\u0447\u0448\u0435\u0435 \u043C\u0435\u0441\u0442\u043E"
+    correctAnswerIndex: 1
+  - questionText: "\u041F\u0440\u043E \u0448\u043A\u043E\u043B\u0443 \u043C\u043E\u0436\u043D\u043E
+      \u0433\u043E\u0432\u043E\u0440\u0438\u0442\u044C \u0442\u043E\u043B\u044C\u043A\u043E
+      :"
+    answers:
+    - "\u0425\u043E\u0440\u043E\u0448\u0435\u0435"
+    - "\u0412\u0441\u0451 \u0447\u0442\u043E \u0437\u0430\u0445\u043E\u0447\u0435\u0448\u044C"
+    - "\u0413\u043E\u0432\u043E\u0440\u0438\u0442\u044C \u0437\u0430\u043F\u0440\u0435\u0449\u0435\u043D\u043E"
+    correctAnswerIndex: 2
+  - questionText: "\u0427\u0442\u043E \u0438\u0437 \u044D\u0442\u043E\u0433\u043E
+      \u041D\u0415 \u044F\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u043F\u043B\u0430\u043D\u0435\u0442\u043E\u0439?"
+    answers:
+    - "\u041F\u043B\u0443\u0442\u043E\u043D"
+    - "\u041C\u0430\u0440\u0441"
+    - "\u042E\u043F\u0438\u0442\u0435\u0440"
+    correctAnswerIndex: 0
+  - questionText: "\u0427\u0442\u043E \u0442\u0430\u043A\u043E\u0435 \u201C\u0431\u0430\u043A\u0442\u0435\u0440\u0438\u044F\u201D?"
+    answers:
+    - "\u0412\u0438\u0434 \u043C\u0435\u0442\u0430\u043B\u043B\u0430"
+    - "\u0412\u0438\u0434 \u0440\u0430\u0441\u0442\u0435\u043D\u0438\u044F"
+    - "\u041E\u0434\u043D\u043E\u043A\u043B\u0435\u0442\u043E\u0447\u043D\u044B\u0439
+      \u043E\u0440\u0433\u0430\u043D\u0438\u0437\u043C"
+    correctAnswerIndex: 2
+  - questionText: "\u041A\u0430\u043A\u043E\u0439 \u201C\u043E\u0440\u0435\u0445\u201D
+      \u043D\u0430 \u0441\u0430\u043C\u043E\u043C \u0434\u0435\u043B\u0435 \u043D\u0435
+      \u043E\u0440\u0435\u0445?"
+    answers:
+    - "\u0410\u0440\u0430\u0445\u0438\u0441"
+    - "\u041C\u0438\u043D\u0434\u0430\u043B\u044C"
+    - "\u0424\u0443\u043D\u0434\u0443\u043A"
+    correctAnswerIndex: 0
+  - questionText: "\u201C\u041A\u0440\u0430\u0441\u043D\u0430\u044F \u043F\u043B\u0430\u043D\u0435\u0442\u0430\u201D
+      \u2014 \u044D\u0442\u043E\u2026"
+    answers:
+    - "\u0412\u0435\u043D\u0435\u0440\u0430"
+    - "\u041C\u0430\u0440\u0441"
+    - "\u042E\u043F\u0438\u0442\u0435\u0440"
+    correctAnswerIndex: 1
+  - questionText: "\u0421\u0430\u043C\u0430\u044F \u0442\u0432\u0451\u0440\u0434\u0430\u044F
+      \u043F\u0440\u0438\u0440\u043E\u0434\u043D\u0430\u044F \u201C\u0432\u0435\u0449\u044C\u201D
+      (\u0432 \u0448\u043A\u043E\u043B\u044C\u043D\u044B\u0445 \u0444\u0430\u043A\u0442\u0430\u0445)?"
+    answers:
+    - "\u0410\u043B\u043C\u0430\u0437"
+    - "\u0416\u0435\u043B\u0435\u0437\u043E"
+    - "\u0413\u0440\u0430\u043D\u0438\u0442"
+    correctAnswerIndex: 0
+  teacherStateSprites:
+  - {fileID: 21300000, guid: bd0efceab2fb029448ca4b4926de9cf1, type: 3}
+  - {fileID: 21300000, guid: d47933f4cf81c134780592012c26119a, type: 3}
+  - {fileID: 21300000, guid: 81cc974ab8f78fc4f9025e84caf7b94b, type: 3}
+  teacherStateSetups:
+  - stateIndex: 0
+    overridePosition: 1
+    position: {x: -3.9526, y: -0.53545, z: 0}
+    overrideScale: 1
+    scale: {x: 1.0354, y: 1.0354, z: 1.0354}
+    overrideSortingLayer: 0
+    sortingLayerName: 
+    overrideOrderInLayer: 0
+    orderInLayer: 0
+  - stateIndex: 1
+    overridePosition: 1
+    position: {x: -5.7983, y: -0.66, z: 0}
+    overrideScale: 1
+    scale: {x: 1.386514, y: 1.386514, z: 1.386514}
+    overrideSortingLayer: 0
+    sortingLayerName: 
+    overrideOrderInLayer: 0
+    orderInLayer: 0
+  - stateIndex: 2
+    overridePosition: 1
+    position: {x: 2.1604, y: -1.9, z: 0}
+    overrideScale: 1
+    scale: {x: 1.655943, y: 1.655943, z: 1.655943}
+    overrideSortingLayer: 0
+    sortingLayerName: 
+    overrideOrderInLayer: 0
+    orderInLayer: 0
+  screamerSetup:
+    overridePosition: 0
+    position: {x: 0, y: 0, z: 0}
+    overrideScale: 1
+    scale: {x: 1.386622, y: 1.386622, z: 1.386622}
+    visualOffset: {x: 0.1933, y: -4.29, z: 0}
+    overrideSortingLayer: 0
+    sortingLayerName: 
+    overrideOrderInLayer: 0
+    orderInLayer: 0
+    losePanelDelaySeconds: 3
+  screamerSpriteA: {fileID: 21300000, guid: 4f669d0013f1e3e44805cb8c48a30109, type: 3}
+  screamerSpriteB: {fileID: 21300000, guid: 4f669d0013f1e3e44805cb8c48a30109, type: 3}
+  screamerBackgroundColor: {r: 1, g: 0, b: 0, a: 1}
+  backgroundMusic: {fileID: 8300000, guid: 17688606be39de549905dfa52565f723, type: 3}
+  tickSound: {fileID: 8300000, guid: 7ac6019be92f5eb4dbf95a87f10defd3, type: 3}
+  breathingSound: {fileID: 8300000, guid: 5ad8710ddea5aef4698d61baeedba992, type: 3}
+  warningShoutSound: {fileID: 8300000, guid: b69ba03c8c28eb144bf170a39db1f0ae, type: 3}
+  screamerSound: {fileID: 8300000, guid: 7f85044da1042ab4e9adaf9762dfaf9b, type: 3}
+  correctAnswerSound: {fileID: 8300000, guid: 74a3a0fae81a9dd48897a02fcb325896, type: 3}
+  wrongAnswerSound: {fileID: 8300000, guid: d48ea6f34558ba64f82507cced42f59e, type: 3}
+  allowedMistakes: 1

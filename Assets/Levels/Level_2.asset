@@ -91,7 +91,7 @@ MonoBehaviour:
   teacherStateSprites:
   - {fileID: 21300000, guid: 3fd9c31a0bc2b87419b48f7ef63a5ee8, type: 3}
   - {fileID: 21300000, guid: b24a160a57d90b749991a4341e57fb75, type: 3}
-  - {fileID: 21300000, guid: a0d49a0b9429f374c8a24a419b74c388, type: 3}
+  - {fileID: 21300000, guid: 3e8b156b5ab4269458130fddb3840077, type: 3}
   teacherStateSetups:
   - stateIndex: 0
     overridePosition: 1
@@ -141,3 +141,4 @@ MonoBehaviour:
   screamerSound: {fileID: 8300000, guid: 598191f1cd574744f84682e6098ce2b2, type: 3}
   correctAnswerSound: {fileID: 8300000, guid: 74a3a0fae81a9dd48897a02fcb325896, type: 3}
   wrongAnswerSound: {fileID: 8300000, guid: d48ea6f34558ba64f82507cced42f59e, type: 3}
+  allowedMistakes: 3

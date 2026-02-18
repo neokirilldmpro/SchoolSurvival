@@ -142,7 +142,7 @@ MonoBehaviour:
   screamerSpriteA: {fileID: 21300000, guid: 4a28e5fcf6fa5f84c99a256c922ec1d5, type: 3}
   screamerSpriteB: {fileID: 21300000, guid: 4a28e5fcf6fa5f84c99a256c922ec1d5, type: 3}
   screamerBackgroundColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundMusic: {fileID: 8300000, guid: 75a717ad4d1725a41a088ad4f4f504fd, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: fc25221cb91c753449538e15acbf6bf1, type: 3}
   tickSound: {fileID: 8300000, guid: 7ac6019be92f5eb4dbf95a87f10defd3, type: 3}
   breathingSound: {fileID: 8300000, guid: 42c1056afe7aded40a25c25e3c20905f, type: 3}
   warningShoutSound: {fileID: 8300000, guid: 777b18561d54e39478c340781e1e1da7, type: 3}

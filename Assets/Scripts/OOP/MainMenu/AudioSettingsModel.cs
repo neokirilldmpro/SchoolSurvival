@@ -1,26 +1,3 @@
-/*using UnityEngine;
-
-public static class AudioSettingsModel
-{
-    private const string KEY_MUSIC = "MusicVolume";
-    private const string KEY_SFX = "SfxVolume";
-
-    public static float GetMusic() => PlayerPrefs.GetFloat(KEY_MUSIC, 1f);
-    public static float GetSfx() => PlayerPrefs.GetFloat(KEY_SFX, 1f);
-
-    public static void SetMusic(float v)
-    {
-        PlayerPrefs.SetFloat(KEY_MUSIC, Mathf.Clamp01(v));
-        PlayerPrefs.Save();
-    }
-
-    public static void SetSfx(float v)
-    {
-        PlayerPrefs.SetFloat(KEY_SFX, Mathf.Clamp01(v));
-        PlayerPrefs.Save();
-    }
-}
-*/
 using System;
 using UnityEngine;
 

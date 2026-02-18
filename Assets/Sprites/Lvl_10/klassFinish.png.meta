@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: a0d49a0b9429f374c8a24a419b74c388
+guid: 9980f1e0883a81942bee1eeaf3ead1a5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5261462043381651447
-    second: engry-Photoroom_0
+      213: 5926611898855879097
+    second: klassFinish_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: engry-Photoroom_0
+      name: klassFinish_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 33
-        width: 853
-        height: 1247
+        y: 0
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7f7d6fe1ad7740940800000000000000
-      internalID: 5261462043381651447
+      spriteID: 9b178e81f1e8f3250800000000000000
+      internalID: 5926611898855879097
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      engry-Photoroom_0: 5261462043381651447
+      klassFinish_0: 5926611898855879097
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

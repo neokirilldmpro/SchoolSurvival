@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 563ba62e737be404aafce490e44bc8a7, type: 3}
   m_Name: Level_3
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
-  backgroundSprite: {fileID: 21300000, guid: 828b266d932fe1546806cf93da770174, type: 3}
+  backgroundSprite: {fileID: 21300000, guid: 57bf5fbe546699f429a50b682d2387f9, type: 3}
   timePerQuestion: 10
   questions:
   - questionText: "\u0423 \u0442\u0435\u0431\u044F \u0435\u0441\u0442\u044C \u0441\u043F\u0438\u0447\u043A\u0430,
@@ -137,7 +137,7 @@ MonoBehaviour:
   screamerSpriteA: {fileID: 21300000, guid: af9c235a7fef0ca4cacc516cd3e2c728, type: 3}
   screamerSpriteB: {fileID: 21300000, guid: af9c235a7fef0ca4cacc516cd3e2c728, type: 3}
   screamerBackgroundColor: {r: 1, g: 0, b: 0, a: 1}
-  backgroundMusic: {fileID: 8300000, guid: 75a717ad4d1725a41a088ad4f4f504fd, type: 3}
+  backgroundMusic: {fileID: 8300000, guid: fc25221cb91c753449538e15acbf6bf1, type: 3}
   tickSound: {fileID: 8300000, guid: 7ac6019be92f5eb4dbf95a87f10defd3, type: 3}
   breathingSound: {fileID: 8300000, guid: ab26ada827f055f49ad03a2914a7dcc7, type: 3}
   warningShoutSound: {fileID: 8300000, guid: 33e4b3c417c7e6943b10f82cf6809a22, type: 3}

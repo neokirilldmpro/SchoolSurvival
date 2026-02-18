@@ -374,6 +374,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3627507348138720627, guid: 86114319e176ef74199b32e220d6f42c, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4145694542742589633, guid: 86114319e176ef74199b32e220d6f42c, type: 3}
       propertyPath: m_Name
       value: AudioController
@@ -416,6 +420,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4998158998643799809, guid: 86114319e176ef74199b32e220d6f42c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6565654642014763242, guid: 86114319e176ef74199b32e220d6f42c, type: 3}
+      propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1075,7 +1083,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1805,6 +1813,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2190dde7f0e895142b544d2593fc2e81, type: 2}
   - {fileID: 11400000, guid: 984f1bc2367943e488e93ef96f5c4c37, type: 2}
   - {fileID: 11400000, guid: 9f87f4d112a118d45bb135c3c356e2d4, type: 2}
+  - {fileID: 11400000, guid: 72bd398d8fe78b44090e898367288c54, type: 2}
+  - {fileID: 11400000, guid: 7bc97eb7e4f1b0946960dc206f269da9, type: 2}
+  - {fileID: 11400000, guid: 45e1eccad03be7849ba64d71b0f264e1, type: 2}
+  - {fileID: 11400000, guid: 2980152d6727bb0489a4aa5d5b099657, type: 2}
+  - {fileID: 11400000, guid: 4fc758a866232e44b923064d0a435222, type: 2}
+  - {fileID: 11400000, guid: c8ffb010ffad57d428621c179e5255ee, type: 2}
   - {fileID: 11400000, guid: 44d4623208421b143bfae1b8df3a79e2, type: 2}
   menuSceneName: MenuScene
   gameSceneName: GameScene

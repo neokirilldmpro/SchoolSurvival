@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿/*using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using YG;
 
 // Главный оркестратор: управляет логикой игры.
 // ВАЖНО ДЛЯ "единый AudioController (DontDestroyOnLoad)":
@@ -18,7 +19,7 @@ public class GameFlowController : MonoBehaviour
     [SerializeField] private ResultView resultView;
 
     [Header("Rules")]
-    /*[SerializeField] private int maxMistakes = 3;*/
+    *//*[SerializeField] private int maxMistakes = 3;*//*
     private int _maxMistakes = 3;
 
 
@@ -233,6 +234,8 @@ public class GameFlowController : MonoBehaviour
 
         _gameOver = true;
 
+        TryShowInterstitial(); // <-- ВАЖНО: сразу
+
         // Отмечаем уровень как пройденный
         if (LevelManager.Instance != null)
             LevelManager.Instance.MarkLevelCompleted();
@@ -266,6 +269,7 @@ public class GameFlowController : MonoBehaviour
         if (toggleQuizButton != null)
             toggleQuizButton.SetActive(false);
         _gameOver = true;
+        TryShowInterstitial();
 
         // Останавливаем таймер
         if (timer != null)
@@ -363,7 +367,8 @@ public class GameFlowController : MonoBehaviour
     private IEnumerator AnswerDelayRoutine(bool correct)
     {
         // Задержка 1 секунда
-        yield return new WaitForSeconds(1f);
+        // yield return new WaitForSeconds(1f);
+        yield return null; // или вообще убери ожидание
 
         if (_gameOver)
             yield break;
@@ -383,4 +388,478 @@ public class GameFlowController : MonoBehaviour
         else
             Debug.LogError("ResultView is NULL in GameFlowController!");
     }
+
+    private void TryShowInterstitial()
+    {
+        Debug.Log($"[ADS] TryShowInterstitial: isSDKEnabled={YG2.isSDKEnabled}");
+
+        #if UNITY_WEBGL && !UNITY_EDITOR
+            if (YG2.isSDKEnabled)
+        {
+            AudioListener.pause = true;
+            YG2.InterstitialAdvShow();
+        }
+        #endif
+    }
+
 }
+*/
+
+using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Collections;
+//using YG;
+
+
+// Главный оркестратор: управляет логикой игры.
+// ВАЖНО ДЛЯ "единый AudioController (DontDestroyOnLoad)":
+// - НИЧЕГО не ищем в сцене через инспектор для AudioController
+// - ВСЕГДА берём звук через AudioController.Instance
+// - Музыку уровня запускает LevelLoader (после SetAudioClips), поэтому здесь PlayMusic НЕ вызываем
+public class GameFlowController : MonoBehaviour
+{
+    [Header("References")]
+    [SerializeField] private QuizController quiz;
+    [SerializeField] private TimerController timer;
+    [SerializeField] private TeacherStateController teacher;
+    [SerializeField] private ScreamerController screamer;
+    [SerializeField] private UIQuizView ui;
+    [SerializeField] private ResultView resultView;
+
+    [Header("Rules")]
+    /*[SerializeField] private int maxMistakes = 3;*/
+    private int _maxMistakes = 3;
+
+
+    private int _mistakes;
+    private bool _gameOver;
+    private bool _awaitingAnswer;
+
+    [SerializeField] private GameObject toggleQuizButton; // кнопка Q (UI)
+
+
+    private void Awake()
+    {
+        // Подписки на события таймера / UI
+        if (timer != null)
+            timer.SecondChanged += OnTimerSecondChanged;
+
+        if (ui != null)
+            ui.AnswerClicked += OnAnswerClicked;
+
+        if (timer != null)
+            timer.TimeUp += OnTimeUp;
+    }
+
+    // ВАЖНО: StartGame нужно запускать НЕ сразу в Start(),
+    // потому что LevelLoader тоже стартует в этом же кадре и именно он задаёт клипы AudioController через SetAudioClips.
+    // Если мы дернем звук раньше — клипы ещё null.
+    private IEnumerator Start()
+    {
+        // Подождать 1 кадр, чтобы LevelLoader успел ApplyLevel() -> SetAudioClips(...)
+        yield return null;
+
+        StartGame();
+    }
+
+    // Старт игры / уровня
+    private void StartGame()
+    {
+        StickyBannerController.Set(false);
+
+        _gameOver = false;
+        if (toggleQuizButton != null)
+            toggleQuizButton.SetActive(true);
+
+        _mistakes = 0;
+
+        var level = LevelManager.Instance != null ? LevelManager.Instance.GetCurrentLevel() : null;
+        _maxMistakes = (level != null && level.allowedMistakes > 0) ? level.allowedMistakes : 3;
+
+        //Debug.Log($"[RULES] Max mistakes for this level: {_maxMistakes}");
+
+
+        // Учитель в спокойное состояние
+        if (teacher != null)
+            teacher.SetState(0);
+
+        // ВАЖНО: PlayMusic тут НЕ вызываем.
+        // Музыку уровня запускает LevelLoader после того, как задаст клипы:
+        // AudioController.Instance.SetAudioClips(...) + PlayMusic()
+        // Иначе получишь ошибку "_music is NULL".
+
+        // Показываем первый вопрос и запускаем таймер
+        ShowCurrentQuestionAndStartTimer();
+    }
+
+    // Показать текущий вопрос и запустить таймер
+    private void ShowCurrentQuestionAndStartTimer()
+    {
+        if (_gameOver)
+            return;
+
+        var q = quiz != null ? quiz.GetCurrentQuestion() : null;
+
+        // Если вопросов нет — победа
+        if (q == null)
+        {
+            Win();
+            return;
+        }
+
+        // Показать вопрос
+        if (ui != null)
+            ui.ShowQuestion(q);
+
+        _awaitingAnswer = true;
+
+        // Запустить таймер
+        if (timer != null)
+            timer.StartTimer();
+    }
+
+    // Когда игрок нажал на кнопку ответа
+    private void OnAnswerClicked(int answerIndex)
+    {
+        if (_gameOver)
+            return;
+
+        _awaitingAnswer = false;
+
+        // Блокируем кнопки
+        if (ui != null)
+            ui.SetButtonsInteractable(false);
+
+        // Останавливаем таймер
+        if (timer != null)
+            timer.StopTimer();
+
+        bool correct = quiz != null && quiz.IsAnswerCorrect(answerIndex);
+
+        // Звук правильного / неправильного ответа
+        // ВАЖНО: берём глобальный AudioController
+        var audio = AudioController.Instance;
+        if (audio != null)
+        {
+            // Выключим тик, чтобы не "пиликал" во время выбора
+            audio.SetTicking(false);
+
+            if (correct)
+                audio.PlayCorrect();
+            else
+                audio.PlayWrong();
+        }
+
+        // Подсветка кнопки
+        if (ui != null)
+            ui.HighlightAnswer(answerIndex, correct);
+
+        // Дальше — ВАЖНО для модерации:
+        // - если игра продолжается (без рекламы) -> даём увидеть подсветку 0.35s и показываем следующий вопрос
+        // - если это Win/Lose (и реклама должна быть) -> вызываем Win/Lose СРАЗУ, без ожиданий
+
+        if (correct)
+        {
+            // Сразу двигаем индекс, чтобы понять: есть ли следующий вопрос
+            bool hasNext = quiz != null && quiz.MoveNext();
+            if (!hasNext)
+            {
+                // Победа -> реклама будет вызвана в Win() сразу
+                Win();
+                return;
+            }
+
+            StartCoroutine(ContinueAfterHighlight());
+        }
+        else
+        {
+            // Неверный ответ: считаем ошибку и сразу проверяем проигрыш
+            _mistakes++;
+
+            if (_mistakes >= _maxMistakes)
+            {
+                // Поражение -> реклама будет вызвана в Lose() сразу
+                Lose();
+                return;
+            }
+
+            var audio2 = AudioController.Instance;
+
+            // Эффекты/состояния училки (только если ещё не проиграли)
+            if (_mistakes == 1)
+            {
+                if (teacher != null) teacher.SetState(1);
+                if (audio2 != null) audio2.PlayBreathing();
+            }
+            else if (_mistakes == 2)
+            {
+                if (teacher != null) teacher.SetState(2);
+                if (audio2 != null) audio2.PlayWarning();
+            }
+            else
+            {
+                if (teacher != null) teacher.SetState(2);
+            }
+
+            // Переходим к следующему вопросу
+            bool hasNext = quiz != null && quiz.MoveNext();
+            if (!hasNext)
+            {
+                Win();
+                return;
+            }
+
+            StartCoroutine(ContinueAfterHighlight());
+        }
+    }
+
+    // Когда таймер закончился
+    private void OnTimeUp()
+    {
+        _awaitingAnswer = false;
+
+        if (_gameOver)
+            return;
+
+        // Таймер закончился = ошибка
+        AddMistake();
+    }
+
+    private void OnCorrectAnswer()
+    {
+        if (_gameOver)
+            return;
+
+        // Следующий вопрос
+        bool hasNext = quiz != null && quiz.MoveNext();
+
+        if (!hasNext)
+        {
+            Win();
+            return;
+        }
+
+        ShowCurrentQuestionAndStartTimer();
+    }
+
+    // Добавить ошибку и обновить состояние училки/игры
+
+    private void AddMistake()
+    {
+        if (_gameOver)
+            return;
+
+        _mistakes++;
+
+        // СНАЧАЛА проверяем проигрыш (важно для _maxMistakes = 1)
+        if (_mistakes >= _maxMistakes)
+        {
+            Lose();
+            return;
+        }
+
+        var audio = AudioController.Instance;
+
+        // Теперь эффекты/состояния только если ещё не проиграли
+        if (_mistakes == 1)
+        {
+            if (teacher != null) teacher.SetState(1);
+            if (audio != null) audio.PlayBreathing();
+        }
+        else if (_mistakes == 2)
+        {
+            if (teacher != null) teacher.SetState(2);
+            if (audio != null) audio.PlayWarning();
+        }
+        else
+        {
+            // Если ошибок больше 2, можно оставить 2-й state или добавить новые
+            if (teacher != null) teacher.SetState(2);
+        }
+
+        // Переходим к следующему вопросу
+        bool hasNext = quiz != null && quiz.MoveNext();
+        if (!hasNext)
+        {
+            Win();
+            return;
+        }
+
+        ShowCurrentQuestionAndStartTimer();
+    }
+
+
+    // Победа
+    private void Win()
+    {
+        if (_gameOver)
+            return;
+
+        _gameOver = true;
+
+        //TryShowInterstitial(); // <-- ВАЖНО: сразу
+
+        // Отмечаем уровень как пройденный
+        if (LevelManager.Instance != null)
+            LevelManager.Instance.MarkLevelCompleted();
+
+        // Останавливаем таймер
+        if (timer != null)
+            timer.StopTimer();
+
+        // Скрываем UI вопросов
+        if (ui != null)
+            ui.SetPanelVisible(false);
+
+        // Отключаем тик
+        var audio = AudioController.Instance;
+        if (audio != null)
+            audio.SetTicking(false);
+
+        if (toggleQuizButton != null)
+            toggleQuizButton.SetActive(false);
+
+        // Показываем результат
+        if (resultView != null)
+            resultView.ShowWin();
+
+        //Debug.Log("WIN");
+    }
+
+    // Поражение (скример)
+    private void Lose()
+    {
+        if (toggleQuizButton != null)
+            toggleQuizButton.SetActive(false);
+        _gameOver = true;
+        //TryShowInterstitial();
+
+        // Останавливаем таймер
+        if (timer != null)
+            timer.StopTimer();
+
+        // Скрываем UI вопросов
+        if (ui != null)
+            ui.SetPanelVisible(false);
+
+        // Прячем училку
+        if (teacher != null)
+            teacher.HideAll();
+
+        var audio = AudioController.Instance;
+
+        // Остановить эффекты и тик
+        if (audio != null)
+        {
+            audio.SetTicking(false);
+            audio.StopSfx();
+        }
+
+        // Визуальный скример
+        if (screamer != null)
+            screamer.Play();
+
+        // Звук скримера
+        if (audio != null)
+            audio.PlayScreamer();
+
+        //Debug.Log("LOSE: started, will show panel in 3 seconds...");
+
+        // Показать результат через 3 секунды (Realtime, чтобы не зависеть от Time.timeScale)
+        StartCoroutine(ShowLoseResultDelayed());
+    }
+
+    // Вызывается каждый раз, когда меняется отображаемая секунда таймера
+    private void OnTimerSecondChanged(int secondsLeft)
+    {
+        if (_gameOver)
+            return;
+
+        // Включаем тиканье, когда осталось 5..1
+        bool shouldTick = secondsLeft <= 5 && secondsLeft >= 1;
+
+        var audio = AudioController.Instance;
+        if (audio != null)
+            audio.SetTicking(shouldTick);
+    }
+
+    private void OnDestroy()
+    {
+        if (ui != null)
+            ui.AnswerClicked -= OnAnswerClicked;
+
+        if (timer != null)
+        {
+            timer.TimeUp -= OnTimeUp;
+            timer.SecondChanged -= OnTimerSecondChanged;
+        }
+    }
+
+    private void Update()
+    {
+        if (_gameOver)
+            return;
+
+        // Проверяем клавишу Q через новый Input System
+        if (Keyboard.current != null && Keyboard.current.qKey.wasPressedThisFrame)
+        {
+            ToggleQuizPanel();
+        }
+    }
+
+    private void ToggleQuizPanel()
+    {
+        if (_gameOver) return;
+
+        if (ui == null)
+            return;
+
+        bool show = !ui.IsVisible;
+
+        // Просто показываем/скрываем панель
+        ui.SetPanelVisible(show);
+
+        // Если показываем — восстанавливаем правильное состояние кнопок
+        if (show)
+            ui.SetButtonsInteractable(_awaitingAnswer);
+    }
+    public void ToggleQuizPanelFromUI()
+    {
+        ToggleQuizPanel();
+    }
+
+    private IEnumerator ShowLoseResultDelayed()
+    {
+        yield return new WaitForSecondsRealtime(3f);
+
+        if (resultView != null)
+            resultView.ShowLose();
+        else
+            Debug.LogError("ResultView is NULL in GameFlowController!");
+    }
+
+    /*private void TryShowInterstitial()
+    {
+        Debug.Log($"[ADS] TryShowInterstitial: isSDKEnabled={YG2.isSDKEnabled}");
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+            if (YG2.isSDKEnabled)
+        {
+            AudioListener.pause = true;
+            YG2.InterstitialAdvShow();
+        }
+#endif
+    }*/
+
+    private IEnumerator ContinueAfterHighlight()
+    {
+        yield return new WaitForSecondsRealtime(0.35f);
+
+        if (_gameOver)
+            yield break;
+
+        ShowCurrentQuestionAndStartTimer();
+    }
+
+}
+
